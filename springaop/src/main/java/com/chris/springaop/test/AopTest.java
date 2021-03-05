@@ -1,7 +1,8 @@
 package com.chris.springaop.test;
 
 import com.chris.springaop.app.AppConfig;
-import com.chris.springaop.dao.IndexDao;
+import com.chris.springaop.dao.Dao;
+import com.chris.springaop.dao.OrderDao;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class AopTest {
@@ -11,7 +12,7 @@ public class AopTest {
         cityEntity.setName("beijing");
         System.out.println(CommonUtil.build(cityEntity));*/
         AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
-        IndexDao dao = annotationConfigApplicationContext.getBean(IndexDao.class);
-        dao.print();
+        Dao dao = (Dao) annotationConfigApplicationContext.getBean(OrderDao.class);
+        dao.query1("hello");
     }
 }

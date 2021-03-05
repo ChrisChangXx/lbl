@@ -1,7 +1,8 @@
 package com.chris.springaop.app;
 
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class MyAspectj {
+
+    /*@DeclareParents(value = "com.chris.springaop.dao.*", defaultImpl = TestDao.class)
+    public static Dao dao;*/
+
 
     @Pointcut("execution(* com.chris.springaop.dao.*.*(..))")
     public void pointCutExecution() {
@@ -22,8 +27,30 @@ public class MyAspectj {
 
     }
 
-    @Before("pointCutWithin()")
-    public void before() {
+    /*@Before("pointCutWithin()")
+    public void before(JoinPoint joinPoint) {
         System.out.println("before");
+        System.out.println(joinPoint.getThis());
+        System.out.println(joinPoint.getTarget());
+    }
+
+    @After("pointCutWithin()")
+    public void after(){
+        System.out.println("after");
+    }*/
+
+    @Around("pointCutWithin()")
+    public void around(ProceedingJoinPoint pjp) {
+        System.out.println("around-before");
+        Object[] args = pjp.getArgs();
+        if (args != null && args.length > 0){
+            args[0] += " world";
+        }
+        try {
+            pjp.proceed(args);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+        System.out.println("around-after");
     }
 }
