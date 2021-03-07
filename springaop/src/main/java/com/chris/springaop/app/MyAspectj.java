@@ -4,13 +4,15 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
  * @author zhangh
  */
 @Component
-@Aspect
+@Aspect("perthis(this(com.chris.springaop.dao.IndexDao))")
+@Scope("prototype")
 public class MyAspectj {
 
     /*@DeclareParents(value = "com.chris.springaop.dao.*", defaultImpl = TestDao.class)
@@ -24,6 +26,11 @@ public class MyAspectj {
 
     @Pointcut("within(com.chris.springaop.dao.*)")
     public void pointCutWithin() {
+
+    }
+
+    @Pointcut("this(com.chris.springaop.dao.IndexDao)")
+    public void pointCutThis(){
 
     }
 
@@ -41,6 +48,7 @@ public class MyAspectj {
 
     @Around("pointCutWithin()")
     public void around(ProceedingJoinPoint pjp) {
+        System.out.println(hashCode());
         System.out.println("around-before");
         Object[] args = pjp.getArgs();
         if (args != null && args.length > 0){
