@@ -1,7 +1,6 @@
 package com.chris.proxy.proxy1;
 
 import com.chris.proxy.dao.UserDao;
-import com.chris.proxy.dao.UserDaoImpl;
 
 /**
  * @创建人 zhanghui
