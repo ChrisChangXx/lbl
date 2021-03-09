@@ -2,7 +2,9 @@ package com.chris.proxy.test;
 
 import com.chris.proxy.dao.LubanDao;
 import com.chris.proxy.dao.LubanDaoImpl;
-import com.chris.proxy.util.ProxyUtil;
+import com.chris.proxy.util.LubanInvocationHandler;
+
+import java.lang.reflect.Proxy;
 
 /**
  * @创建人 zhanghui
@@ -30,13 +32,21 @@ public class Test {
         powerProxy.query();*/
 
         //自己编写的代理
-        LubanDao lubanDao = (LubanDao) ProxyUtil.newInstance(new LubanDaoImpl());
+        /*LubanDao lubanDao = (LubanDao) ProxyUtil.newInstance(new LubanDaoImpl());
         lubanDao.query();
-        lubanDao.query1("LubanDaoModify");
+        lubanDao.query1("LubanDaoModify");*/
 
         //jdk动态代理
-        /*LubanDao jdkProxy = (LubanDao) Proxy.newProxyInstance(Test.class.getClassLoader(),
+        LubanDao jdkProxy = (LubanDao) Proxy.newProxyInstance(Test.class.getClassLoader(),
                 new Class[]{LubanDao.class},new LubanInvocationHandler(new LubanDaoImpl()));
-        jdkProxy.query1("jdk proxy");*/
+        jdkProxy.query1("jdk proxy");
+
+        //仿照jdk动态代理修改
+        /*ChrisDao chrisDao = (ChrisDao) ProxyUtil.newInstance(ChrisDao.class, new CustomInvocationHandlerImpl(new ChrisDaoImpl()));
+        try {
+            chrisDao.query();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
     }
 }
